@@ -19,13 +19,31 @@ def tokenize(code):
                     'int', 'long', 'register', 'return',
                     'short', 'signed', 'sizeof', 'static',
                     'struct', 'switch', 'typedef', 'union',
-                    'unsigned', 'void', 'volatile', 'while'}
+                    'unsigned', 'void', 'volatile', 'while','asm',
+                    'dynamic_cast', 'namespace', 'reinterpret_cast', 'bool',
+                    'explicit', 'new', 'static_cast', 'false', 'catch',
+                    'operator',	'template',	'friend', 'private', 'class',
+                    'this', 'inline', 'public',	'throw', 'const_cast',
+                    'delete', 'mutable', 'protected', 'true', 'try', 
+                    'typeid', 'typename', 'using', 'virtual', 'wchar_t'}
     # each element in the token_specification list is a named tuple that represents a possible token
     token_specification = [
         # ToDo: Check this example then complete the rest of the tokens.
         # I use a namedtuple in here. It's like a normal tuple but with named fields.
         # So i can get the values using names.
-        ('assignment_operator', r'=|(/=)|\*='),  # assignment-operator identifier
+		#(?!"operation")
+        ('block_comment',r'(/\*[A-z0-9]+\*/)|(/\*\*/)'),
+        ('logical_operator',r'\|\||&&|!'),
+        ('relop',r'<|>|<=|>=|==|<>|!='),
+        ('assignment_operator', r'=|/=|\*=|%=|\+=|-=|>>=|<<=|&=|^=|\|='), # assignment-operator identifier
+        ('unary_operator',r'\*|\+|-|&|!|~'),
+        ('letter_',r'[A-Za-z]'),
+        ('digits',r'[0-9]{2,}'),
+        ('digit',r'\d'),
+        ('line_comment',r'(//[A-z0-9]+)|(//)'),
+        ('String',r'(\'.*\')|(\".*\")'),
+        ('identifier',r'')
+
     ]
 
     # This creates a regular expression that contains all the expressions u wrote in the token_specification list.
@@ -63,7 +81,11 @@ def tokenize(code):
 
 def main():
     # ToDo: U have to add the file handling logic in here and then pass the code to the tokenize() function.
-    for token in tokenize(add_the_code_here):
+    string_test='''
+"hju$%$##f"
+""
+'''
+    for token in tokenize(string_test):
         print(token)
 
 
